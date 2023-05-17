@@ -1,0 +1,50 @@
+{% extends 'salon/base.html' %}
+
+{% block content %}
+<div class="service-details-container">
+    <h2 class="service-title">{{ service.title }}</h2>
+    <img class="service-image" src="{{ service.image.url }}" alt="{{ service.title }}">
+    <p class="service-price">SAR {{ service.price }}</p>
+    <p class="service-duration">Duration: {{ service.duration }}</p>
+    <p class="service-description">{{ service.description }}</p>
+    <div class="service-actions">
+        <div class="service-like">
+            <i class="fas fa-thumbs-up"></i>
+            <span class="service-likes-count">Likes: {{ service.total_likes }}</span>
+        </div>
+        <div class="service-comment">
+            <i class="fas fa-comment"></i>
+            <span class="service-comments-count">Comments: {{ service.comments.all.count }}</span>
+        </div>
+    </div>
+    <hr>
+    <h3>Comments</h3>
+    <div class="comment-section">
+        {% for comment in service.comments.all %}
+        <div class="comment">
+            <p class="comment-text">{{ comment }}</p>
+        </div>
+        {% empty %}
+        <p>No comments yet.</p>
+        {% endfor %}
+        <hr>
+        <form method="POST" action="{% url 'add_comment' service.id %}">
+            {% csrf_token %}
+            <textarea style="min-width: 100%; padding: 10px" name="comment" placeholder="Add a comment"></textarea>
+            <br>
+            <button type="submit">Comment</button>
+        </form>
+    </div>
+    <form style="margin-top: 10px;" method="POST" action="{% url 'like_service' service.id %}">
+        {% csrf_token %}
+        {% if service in liked_services %}
+        <button style="background-color: grey; pointer-events: none;" type="submit" disabled class="like-btn">You've
+            already liked
+            this!</button>
+        {% else %}
+        <button type="submit" class="like-btn">Like</button>
+        {% endif %}
+
+
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'salon/base.html' %}
+
+{% block content %}
+<div class="login-container">
+    <h2>Login</h2>
+    <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+        <div class="error">{{ form.non_field_errors }}</div>
+        {% endif %}
+        <div class="form-group">
+            <label for="id_username">Username:</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+            <div class="error">{{ form.username.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_password">Password:</label>
+            {{ form.password }}
+            {% if form.password.errors %}
+            <div class="error">{{ form.password.errors }}</div>
+            {% endif %}
+        </div>
+        <button type="submit">Login</button>
+    </form>
+</div>
+{% endblock %}

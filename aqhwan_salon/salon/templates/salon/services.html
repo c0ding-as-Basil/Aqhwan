@@ -1,0 +1,25 @@
+{% extends 'salon/base.html' %}
+
+{% block content %}
+<h2>Services</h2>
+<div class="service-container">
+    {% for service in services %}
+    <a style="text-decoration:none" href="{% url 'service_detail' service.id %}">
+        <div class="service-card">
+            <img class="service-image" src="{{ service.image.url }}" alt="{{ service.title }}">
+            <h2 class="service-title">{{ service.title }}</h2>
+            <p class="service-price">SAR {{ service.price }}</p>
+            <p class="service-duration">Duration: {{ service.duration }}</p>
+            <p class="service-description">{{ service.description }}</p>
+            <div class="service-actions">
+                <div class="service-like">
+                    <i class="fas fa-thumbs-up"></i>
+                    <span class="service-likes-count">Likes: {{ service.total_likes }}</span>
+                </div>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+{% endblock %}
